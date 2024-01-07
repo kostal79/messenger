@@ -1,0 +1,25 @@
+@import "../../index.css";
+
+.reset__button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.reset__button:hover path{
+    fill: var(--UI-blue)
+}
+
+.reset__button span {
+    margin-right: 4px;
+    line-height: 24px;
+    font-size: 14px;
+}
+
+.reset__icon {
+    width: 15px;
+    height: 15px;
+}

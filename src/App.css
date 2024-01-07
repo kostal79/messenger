@@ -1,0 +1,5 @@
+.app {
+  max-width: 1440px;
+  margin: 80px auto 120px auto;
+  background-color: var(--backgroud-secondary);
+}

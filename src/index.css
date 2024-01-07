@@ -1,0 +1,72 @@
+@font-face {
+  font-weight: 400;
+  font-family: "SF Pro Display";
+  src: url("./fonts/SFProDisplay-Regular.ttf");
+  src: url("./fonts/SF-Pro-Display-Regular.otf") format("otf")
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: "SF Pro Display";
+  src: url("./fonts/SFProDisplay-Medium.ttf");
+  src: url("./fonts/SF-Pro-Display-Medium.otf") format("otf")
+}
+
+@font-face {
+  font-weight: 600;
+  font-family: "SF Pro Display";
+  src: url("./fonts/SFProDisplay-Semibold.ttf");
+  src: url("./fonts//SF-Pro-Display-Semibold.otf") format("otf");
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: "SF Compact Display";
+  src: url("./fonts/SFCompactDisplay-Regular.ttf");
+}
+
+:root {
+  --text-primary: #122945;
+  --text-secondary: #5E7793;
+  --text-header: #899CB1;
+  --backgroud-primary: #F1F4F9;
+  --backgroud-secondary: #FFFFFF;
+  --UI-blue: #002CFB;
+  --UI-blue-transparent: rgba(0, 44, 251, .1);
+  --UI-green: #28A879;
+  --UI-red: #EA1A4F;
+  --UI-light-red: #FEE9EF;
+  --UI-light-green: #DBF8EF;
+  --UI-Icon: #ADBFDF;
+  --UI-secondary: #D8E4FB;
+  --font-primary: "SF Pro Display";
+  --font-secondary: "SF Compact Display";
+    line-height: 1.32;
+  font-weight: 400;
+  color: var(--text-primary);
+  background-color: var(--backgroud-primary);
+  font-family: var(--font-primary), Arial, Helvetica, sans-serif;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*::after {
+  box-sizing: inherit;
+}
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+ul,
+li,
+figure,
+figcaption {
+  margin: 0;
+}

@@ -1,0 +1,85 @@
+@import "../../index.css";
+
+.table__container {
+    padding: 24px 0px 52px 40px;
+    border-radius: 8px;
+}
+
+.table__body {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table__body td, .table__label td {
+    font-size: 15px;
+    line-height: 140%;
+}
+
+.table__head,
+.table__head button {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+thead tr th{
+   text-align: left;
+   padding-bottom: 20px;
+   border-bottom: 1px solid #EAF0FA;
+}
+
+.table__data {
+    padding: 5px;
+    padding-bottom: 12px;
+}
+
+.table__body .table__row .table__head:last-child {
+    display: flex;
+    justify-content: right;
+    padding-right: 18px;
+}
+
+.table-for-day .table__row td:nth-child(5){
+    max-width: 150px;
+    color: var(--text-secondary)
+}
+
+.table-for-day .table__row, .table__label {
+   border-bottom: 1px solid #EAF0FA;
+}
+
+.table__label sup {
+    color: var(--text-secondary)
+}
+
+.table__row .table__data {
+    height: 65px;
+}
+
+.table__row .table__data:last-child {
+    padding-right: 40px;
+    width: 400px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    height: 100%;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
+tbody tr:hover {
+    background-color: rgba(212, 223, 243, 0.17);
+}
+
+.table__row:hover .table__duration {
+    display: none;
+}
+
+.table__player {
+    display: none;
+}
+
+.table__row:hover .table__player {
+    display: block;
+}

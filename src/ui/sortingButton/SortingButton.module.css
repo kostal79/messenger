@@ -1,0 +1,19 @@
+@import "../../index.css";
+
+.sorting__container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sorting__label {
+    color: var(--text-secondary)
+}
+
+.sorting__arrow:hover path{
+    fill: var(--UI-blue);
+}
+
+.sorting__arrow{
+    padding: 0;
+}

@@ -1,0 +1,65 @@
+@import "../../index.css";
+
+.player {
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    width: 352px;
+    height: 48px;
+    background-color: var(--UI-blue-transparent);
+    border-radius: 48px;
+}
+
+.duration {
+    margin-right: 12px;
+    width: 41px;
+}
+
+.play-button,
+.pause-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.play-button:disabled,
+.pause-button:disabled {
+    opacity: .5;
+}
+
+.player-range {
+    position: relative;
+    margin: 0 12px 0 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    width: 164px;
+    height: 4px;
+    border-radius: 50px;
+}
+
+.player-range::-webkit-slider-thumb {
+    opacity: 0;
+} 
+
+
+.player-range::-moz-range-thumb {
+    background-color: transparent;
+    border: none;
+}
+
+.download {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.download:hover path{
+    fill: var(--UI-blue)
+}

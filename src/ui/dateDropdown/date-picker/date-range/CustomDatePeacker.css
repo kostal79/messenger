@@ -1,0 +1,30 @@
+.react-datepicker {
+    font-family: inherit;
+    font-size: 12px;
+    
+}
+
+.react-datepicker__month-container {
+    width: 100%;
+    position: relative;
+}
+
+.react-datepicker__month-container * {
+    position: relative;
+}
+
+.react-datepicker__day-names {
+    display: flex;
+}
+
+.react-datepicker__week {
+    display: flex;
+}
+
+.react-datepicker__navigation-icon--previous::before {
+    right: 0;
+}
+
+.react-datepicker__navigation-icon--next::before {
+    left: 0;
+}

@@ -1,0 +1,27 @@
+@import "../../index.css";
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.type--incoming path{
+    fill: var(--UI-blue);
+}
+
+.type--missed path{
+    fill: var(--UI-red);
+}
+
+.type--outcoming, .type--non-call {
+    transform: rotate(180deg);
+}
+
+.type--outcoming path{
+    fill: var(--UI-green);
+}
+
+.type--non-call path{
+    fill: var(--UI-red);
+}
+

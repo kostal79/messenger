@@ -1,0 +1,29 @@
+@import "../../index.css";
+
+.box{
+    padding: 6px 8px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.box span {
+    font-size: 14px;
+    line-height: 100%;
+}
+
+.status--good {
+    border: 1px solid var(--UI-Icon);
+    background-color: var(--UI-secondary);
+}
+
+.status--bad {
+    border: 1px solid var(--UI-red);
+    background-color: var(--UI-light-red);
+    color: var(--UI-red)
+}
+
+.status--excellent {
+    border: 1px solid var(--UI-green);
+    background-color: var(--UI-light-green);
+    color: var(--UI-green)
+}

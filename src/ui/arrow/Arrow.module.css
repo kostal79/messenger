@@ -1,0 +1,29 @@
+@import "../../index.css";
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.direction--down {
+    transform: rotate(180deg);
+}
+
+.direction--right {
+    transform: rotate(90deg);
+}
+
+.direction--left {
+    transform: rotate(-90deg);
+}
+
+.color--blue path {
+    fill: var(--UI-blue)
+}

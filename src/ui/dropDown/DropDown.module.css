@@ -1,0 +1,49 @@
+@import "../../index.css";
+
+
+.dropdown__container {
+    position: relative;
+}
+
+.dropdown__button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dropdown__list {
+    position: absolute;
+    left: 0;
+    top: 38px;
+    min-width: 133px;
+    list-style: none;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 4px 0;
+    text-align: left;
+    z-index: 10;
+}
+
+.dropdown__li {
+    padding: 7px 12px;
+    cursor: pointer;
+    line-height: 150%;
+}
+
+.dropdown__li:hover {
+    background-color: var(--UI-blue-transparent)
+}
+
+.dropdown__li--active {
+    color: var(--UI-blue)
+}
+
+.dropdown-value {
+    color: var(--text-secondary);
+}

@@ -1,0 +1,35 @@
+@import "../../../index.css";
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+}
+
+.calendar-icon {
+    width: 16px;
+    height: 18px;
+}
+
+.button--center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--UI-blue);
+    cursor: pointer;
+}
+
+.button--center:hover path,
+.button--left:hover path,
+.button--right:hover path
+ {
+    fill: var(--UI-blue)
+}
