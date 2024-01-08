@@ -7,7 +7,7 @@
 }
 
 .sorting__label {
-    color: var(--text-secondary)
+    color: var(--text-secondary);
 }
 
 .sorting__arrow:hover path{

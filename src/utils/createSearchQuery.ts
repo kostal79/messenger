@@ -5,34 +5,25 @@ export function createPeriodQuery(
   period: ParamsStateType["period"],
   mask: string
 ) {
-  const searchParams = new URLSearchParams();
   const now = new Date();
   let startDate: queryDataT["date_start"];
   let endDate: queryDataT["date_end"];
   switch (period) {
     case "3 дня":
-      startDate = dateFormat(now, mask);
-      endDate = dateFormat(now.setDate(now.getDate() + 2), mask);
-      searchParams.set("date_start", startDate);
-      searchParams.set("date_end", endDate);
+      endDate = dateFormat(now, mask);
+      startDate = dateFormat(now.setDate(now.getDate() - 2), mask);
       break;
     case "Неделя":
-      startDate = dateFormat(now, mask);
-      endDate = dateFormat(now.setDate(now.getDate() + 6), mask);
-      searchParams.set("date_start", startDate);
-      searchParams.set("date_end", endDate);
+      endDate = dateFormat(now, mask);
+      startDate = dateFormat(now.setDate(now.getDate() - 6), mask);
       break;
     case "Месяц":
-      startDate = dateFormat(now, mask);
-      endDate = dateFormat(now.setMonth(now.getMonth() + 1), mask);
-      searchParams.set("date_start", startDate);
-      searchParams.set("date_end", endDate);
+      endDate = dateFormat(now, mask);
+      startDate = dateFormat(now.setMonth(now.getMonth() - 1), mask);
       break;
     case "Год":
-      startDate = dateFormat(now, mask);
-      endDate = dateFormat(now.setFullYear(now.getFullYear() + 1), mask);
-      searchParams.set("date_start", startDate);
-      searchParams.set("date_end", endDate);
+      endDate = dateFormat(now, mask);
+      startDate = dateFormat(now.setFullYear(now.getFullYear() - 1), mask);
       break;
     default:
       const from = period.from.split(".");
@@ -41,76 +32,72 @@ export function createPeriodQuery(
       const dateTo = Date.parse(`20${to[2]}-${to[1]}-${to[0]}`);
       startDate = dateFormat(dateFrom, mask);
       endDate = dateFormat(dateTo, mask);
-      searchParams.set("date_start", startDate);
-      searchParams.set("date_end", endDate);
       break;
   }
-  return searchParams.toString();
+  return { startDate, endDate };
 }
 
 export function createCallTypeQuery(callType: ParamsStateType["callType"]) {
-  const searchParams = new URLSearchParams();
+  let searchParams: queryDataT["in_out"];
   switch (callType) {
     case "Все типы":
       break;
     case "Входящие":
-      searchParams.set("in_out", "1");
+      searchParams = "1";
       break;
     case "Исходящие":
-      searchParams.set("in_out", "0");
+      searchParams = "0";
       break;
     default:
       break;
   }
-  return searchParams.toString();
+  return searchParams;
 }
 
 export function createSortByQuery(sortBy: ParamsStateType["sortBy"]) {
-  const searchParams = new URLSearchParams();
+  let searchParams: queryDataT["sort_by"];
   switch (sortBy) {
     case "date":
-      searchParams.set("sort_by", "date");
+      searchParams = "date";
       break;
     case "duration":
-      searchParams.set("sort_by", "duration");
+      searchParams = "duration";
       break;
 
     default:
-      searchParams.set("sort_by", "date");
+      searchParams = "date";
       break;
   }
-  return searchParams.toString();
+  return searchParams;
 }
 
 export function createOrderQuery(order: ParamsStateType["order"]) {
-  const searchParams = new URLSearchParams();
+  let searchParams: queryDataT["order"];
   switch (order) {
     case "DESC":
-      searchParams.set("order", "DESC");
+      searchParams = "DESC";
       break;
     case "ASC":
-      searchParams.set("order", "ASC");
+      searchParams = "ASC";
       break;
 
     default:
-      searchParams.set("order", "DESC");
+      searchParams = "DESC";
       break;
   }
-  return searchParams.toString();
+  return searchParams;
 }
 
 export function createLimitQuery(limit: QueryParams["limit"]) {
-  if (!limit) return;
-  const searchParams = new URLSearchParams();
-  searchParams.set("limit", limit.toString());
-  return searchParams.toString();
+  let searchParams: queryDataT["limit"];
+  if (limit) searchParams=limit.toString();
+  return searchParams;
 }
 
 export function createOffsetQuery(offset: QueryParams["offset"]) {
-  if (!offset) return;
-  const searchParams = new URLSearchParams();
-  searchParams.set("offset", offset.toString());
-  return searchParams.toString();
+  let searchParams : queryDataT["offset"];
+  if (offset) searchParams = offset.toString();
+  return searchParams;
 }
 
 export function createSearchQuery(params: QueryParams) {
@@ -121,15 +108,14 @@ export function createSearchQuery(params: QueryParams) {
   const limitQuery = createLimitQuery(params.limit);
   const offsetQuery = createOffsetQuery(params.offset);
 
-  let query = [
-    periodQuery,
-    callTypeQuery,
-    sortByQuery,
-    orderQuery,
-    limitQuery,
-    offsetQuery,
-  ]
-    .filter((item) => item)
-    .join("&");
-    return query;
+  const query = {
+    date_start: periodQuery.startDate,
+    date_end: periodQuery.endDate,
+    in_out: callTypeQuery,
+    sort_by: sortByQuery,
+    order: orderQuery,
+    limit: limitQuery,
+    offset: offsetQuery,
+  }
+  return query;
 }

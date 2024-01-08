@@ -1,29 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./SortingButton.module.css";
 import { Arrow } from "../arrow";
-import { SortingButtonProps } from "../../types/types";
-
-
+import { ParamsStateType, SortingButtonProps } from "../../types/types";
+import {useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setOrder, setSortBy, toggleOrder } from "../../store/slices/paramsSlice";
 
 const SortingButton: React.FC<SortingButtonProps> = ({
   label,
-  onClick,
-  'data-testid': testId,
+  name,
+  "data-testid": testId,
 }: SortingButtonProps) => {
-  const [isDefault, setIsDefault] = useState<boolean>(true);
+  const sortByValue = useAppSelector((state) => state.data.sortBy);
+  const order = useAppSelector((state) => state.data.order);
+  const dispatch = useAppDispatch();
 
-  const clickToggler: React.MouseEventHandler<HTMLButtonElement> = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    setIsDefault((prev) => !prev);
-    if (onClick) onClick(e);
+  const isUpArrow: () => boolean = () => {
+    if (sortByValue === name && order === "ASC") return true;
+    else return false;
   };
+
+  const toggleHandler: React.MouseEventHandler<HTMLButtonElement> = () => {
+    if (sortByValue !== name) {
+      dispatch(setSortBy(name as ParamsStateType["sortBy"]));
+      dispatch(setOrder("DESC"));
+    } else {
+      dispatch(toggleOrder());
+    }
+  };
+
   return (
     <div className={styles["sorting__container"]} data-testid={testId}>
-      <label className={styles["sorting__label"]}>{label}</label>
-      <Arrow additionalClassname={styles["sorting__arrow"]} direction={isDefault ? "down" : "up"} onClick={clickToggler}/>
+      {label && (
+        <label className={styles["sorting__label"]} >
+          {label}
+        </label>
+      )}
+      <Arrow
+        additionalClassname={styles["sorting__arrow"]}
+        direction={isUpArrow() ? "up" : "down"}
+        onClick={toggleHandler}
+      />
     </div>
   );
 };
 
-export default SortingButton;
+export default React.memo(SortingButton);

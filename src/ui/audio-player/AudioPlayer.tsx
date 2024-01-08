@@ -4,68 +4,65 @@ import DownloadIcon from "../../ui/icons/DownloadIcon";
 import { toReadableTime } from "./helpers";
 import AudioControls from "./AudioControls";
 import ProgressBar from "./ProgressBar";
-import { AudioPlayerProps } from "../../types/types";
+import { AudioPlayerProps, GetAudioParams } from "../../types/types";
+import { getAudio } from "../../services/audio";
 
-
-
-const AudioPlayer: React.FC<AudioPlayerProps> = ({
-  track,
-}: AudioPlayerProps) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
+  const [audioData, setAudioData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<any>();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const audioRef: React.MutableRefObject<HTMLAudioElement> = useRef(
-    new Audio(track)
-  );
-
+  const audioRef: React.MutableRefObject<HTMLAudioElement | null> =
+    useRef(null);
   const intervalRef: React.MutableRefObject<NodeJS.Timeout | undefined> =
     useRef();
   const durationRef: React.MutableRefObject<number> = useRef(0);
-  const [duration, setDuration] = useState<string>("00:00");
+  const [duration, setDuration] = useState<any>("--:--");
   const [trackProgress, setTrackProgress] = useState(0);
+
+  async function fetchTrack(params: GetAudioParams) {
+    try {
+      setIsLoading(true);
+      const data = await getAudio(params);
+      setAudioData(data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     if (isPlaying) {
-      audioRef.current.play();
+      audioRef.current?.play();
       startTimer();
     } else {
-      audioRef.current.pause();
-      clearInterval(intervalRef.current);
+      audioRef.current?.pause();
+      clearInterval(intervalRef!.current);
     }
   }, [isPlaying]);
 
   useEffect(() => {
     return () => {
-      clearInterval(intervalRef.current);
+      clearInterval(intervalRef!.current);
     };
   }, []);
 
-  useEffect(() => {
-    const loadMetadata = () => {
-      try {
-        audioRef.current.addEventListener("loadedmetadata", () => {
-          const time = Math.round(audioRef.current.duration);
-          durationRef.current = time;
-          setDuration(toReadableTime(time));
-        });
-      } catch (error) {
-        console.error("Error loading audio metadata:", error);
-      }
-    };
-
-    loadMetadata();
-
-    return () => {
-      audioRef.current.removeEventListener("loadedmetadata", () => {});
-    };
-  }, [audioRef.current]);
+  const durationHandler = (time: number) => {
+    durationRef.current = time;
+    setDuration(toReadableTime(time));
+  };
 
   const startTimer = () => {
     clearInterval(intervalRef.current);
 
     intervalRef.current = setInterval(() => {
-      const currentTime = Math.floor(audioRef.current.currentTime);
-      const lastedTime = durationRef.current - currentTime;
+      const currentTime =  Math.floor(audioRef.current!.currentTime);
+      const lastedTime = Math.floor(durationRef.current - currentTime);
+
       setTrackProgress(currentTime);
       setDuration(toReadableTime(lastedTime));
+
       if (lastedTime === 0) {
         clearInterval(intervalRef.current);
         setTimeout(() => {
@@ -79,14 +76,18 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   const onScrub = (value: any) => {
     clearInterval(intervalRef.current);
-    audioRef.current.currentTime = value;
-    setTrackProgress(audioRef.current.currentTime);
+    audioRef.current!.currentTime = value;
+    setTrackProgress(audioRef.current!.currentTime);
     setDuration(toReadableTime(Math.floor(durationRef.current - value)));
     startTimer();
   };
 
   const onPlay = useCallback(() => {
-    setIsPlaying(true);
+    if (!audioData) {
+      fetchTrack(props).then(() => setIsPlaying(true));
+    } else {
+      setIsPlaying(true);
+    }
   }, []);
 
   const onPause = useCallback(() => {
@@ -95,30 +96,80 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   const onDownload = () => {
     const link = document.createElement("a");
-    link.href = track;
-    link.download = `audio-${Date.now().toString()}.mp3` ; 
+    link.href = URL.createObjectURL(audioData);
+    link.download = `audio-${Date.now().toString()}.mp3`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <div className={styles.player}>
-      {duration && <div className={styles.duration}>{duration}</div>}
-      <AudioControls onPlay={onPlay} onPause={onPause} isPlaying={isPlaying} />
-      <ProgressBar
-        onChange={(e) => onScrub(e.target.value)}
-        value={trackProgress}
-        max={
-          durationRef.current ? durationRef.current : `${durationRef.current}`
-        }
-        durationRef={durationRef}
-      />
-      <button className={styles.download} onClick={onDownload}>
-        <DownloadIcon />
-      </button>
-    </div>
+    <>
+      <div className={styles.player}>
+        {audioData && (
+          <audio
+            ref={audioRef}
+            onDurationChange={(event) =>
+              durationHandler(event.currentTarget.duration)
+            }
+          >
+            <source
+              type="audio/mpeg"
+              src={audioData && URL.createObjectURL(audioData)}
+            />
+          </audio>
+        )}
+        <div className={styles.duration}>{duration}</div>
+        <AudioControls
+          isLoading={isLoading}
+          onPlay={onPlay}
+          onPause={onPause}
+          isPlaying={isPlaying}
+        />
+        <ProgressBar
+          onChange={(e) => onScrub(e.target.value)}
+          value={trackProgress}
+          max={
+            durationRef.current ? durationRef.current : `${durationRef.current}`
+          }
+          durationRef={durationRef}
+        />
+        <button className={styles.download} onClick={onDownload}>
+          <DownloadIcon />
+        </button>
+      </div>
+      {error && <span>Loading error</span>}
+    </>
   );
 };
 
+//   const [audioData, setAudioData] = useState<any>(null);
+//   const [error, setError] = useState<any>(null);
+//   const audioRef = useRef<HTMLAudioElement | null>(null);
+//   const playRef = useRef<HTMLButtonElement | null>(null);
+
+//   const handleFetchAudio = async (params: GetAudioParams) => {
+//     try {
+//       const audioContent = await getAudio(params);
+//       setAudioData(audioContent);
+//     } catch (error) {
+//       setError(error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={() => handleFetchAudio({ record, partnership_id })}>
+//         Load
+//       </button>
+//       {error && <div>Ошибка при загрузке</div>}
+//       {audioData && (
+//         <audio controls ref={audioRef}>
+//           <source type="audio/mpeg" src={URL.createObjectURL(audioData)} />
+//           Ваш браузер не поддерживает аудио-элемент.
+//         </audio>
+//       )}
+//     </div>
+//   );
+// };
 export default AudioPlayer;

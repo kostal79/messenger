@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styles from "./ResetButton.module.css";
 import clsx from "clsx";
 import { ResetButtonProps } from "../../types/types";
@@ -35,4 +35,4 @@ const ResetButton: React.FC<ResetButtonProps> = ({
   );
 };
 
-export default ResetButton;
+export default memo(ResetButton);

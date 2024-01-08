@@ -8,6 +8,7 @@ const AudioControls: React.FC<AudioControlsProps> = ({
   isPlaying,
   onPlay,
   onPause,
+  isLoading,
 }: AudioControlsProps) => {
   return (
     <div>
@@ -17,7 +18,8 @@ const AudioControls: React.FC<AudioControlsProps> = ({
           onClick={onPlay}
           aria-label="play"
         >
-          <PlayIcon />
+          {!isLoading && <PlayIcon />}
+          {isLoading && <span className={styles.loader}></span>}
         </button>
       )}
       {isPlaying && (

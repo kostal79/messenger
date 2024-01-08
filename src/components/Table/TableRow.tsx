@@ -1,21 +1,11 @@
 import React from "react";
 import styles from "./Table.module.css";
-import { CallIcon, CallIconType } from "../../ui/call-icon";
-import { Badge, StatusType } from "../../ui/badge";
+import { CallIcon } from "../../ui/call-icon";
+import { Badge } from "../../ui/badge";
 import { Avatar } from "../../ui/avatar";
 import { AudioPlayer } from "../../ui/audio-player";
+import { TableRowProps } from "../../types/types";
 
-export interface TableRowProps {
-  id: string | number,
-  type: CallIconType;
-  time: string;
-  avatar?: string;
-  phone: string;
-  source?: string;
-  badgeStatus?: StatusType;
-  duration?: string;
-  audio?: string;
-}
 
 const TableRow: React.FC<TableRowProps> = ({
   type,
@@ -25,8 +15,10 @@ const TableRow: React.FC<TableRowProps> = ({
   source,
   badgeStatus,
   duration,
-  audio,
+  record,
+  partnership_id
 }: TableRowProps) => {
+
   return (
     <tr className={styles["table__row"]}>
       <td className={styles["table__data"]}>
@@ -48,10 +40,10 @@ const TableRow: React.FC<TableRowProps> = ({
         <Badge status={badgeStatus} />
       </td>
       <td className={styles["table__data"]}>
-        {audio ? (
+        {duration ? (
           <>
             <span className={styles["table__duration"]}>{duration}</span>
-            <span className={styles["table__player"]}><AudioPlayer track={audio} /></span>
+            {record && <span className={styles["table__player"]}><AudioPlayer record={record} partnership_id={partnership_id}/></span>}
           </>
         ) : (
           ""

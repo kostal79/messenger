@@ -12,86 +12,86 @@ import { QueryParams } from "../types/types";
 describe("Utils createPeriodQuery", () => {
   test("3 дня", () => {
     const now = new Date();
-    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
-
-    now.setDate(now.getDate() + 2);
     const dateEndToString = dateFormat(now, "yyyy-mm-dd");
 
-    const query = `date_start=${dateStartToString}&date_end=${dateEndToString}`;
+    now.setDate(now.getDate() - 2);
+    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
 
-    expect(createPeriodQuery("3 дня", "yyyy-mm-dd")).toBe(query);
+    const query = { startDate: dateStartToString, endDate: dateEndToString };
+
+    expect(createPeriodQuery("3 дня", "yyyy-mm-dd")).toEqual(query);
   });
   test("Неделя", () => {
     const now = new Date();
-    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
-
-    now.setDate(now.getDate() + 6);
     const dateEndToString = dateFormat(now, "yyyy-mm-dd");
 
-    const query = `date_start=${dateStartToString}&date_end=${dateEndToString}`;
+    now.setDate(now.getDate() - 6);
+    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
 
-    expect(createPeriodQuery("Неделя", "yyyy-mm-dd")).toBe(query);
+    const query = { startDate: dateStartToString, endDate: dateEndToString };
+
+    expect(createPeriodQuery("Неделя", "yyyy-mm-dd")).toEqual(query);
   });
   test("Месяц", () => {
     const now = new Date();
-    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
-
-    now.setMonth(now.getMonth() + 1);
     const dateEndToString = dateFormat(now, "yyyy-mm-dd");
 
-    const query = `date_start=${dateStartToString}&date_end=${dateEndToString}`;
+    now.setMonth(now.getMonth() - 1);
+    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
 
-    expect(createPeriodQuery("Месяц", "yyyy-mm-dd")).toBe(query);
+    const query = { startDate: dateStartToString, endDate: dateEndToString };
+
+    expect(createPeriodQuery("Месяц", "yyyy-mm-dd")).toEqual(query);
   });
   test("Год", () => {
     const now = new Date();
-    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
-
-    now.setFullYear(now.getFullYear() + 1);
     const dateEndToString = dateFormat(now, "yyyy-mm-dd");
 
-    const query = `date_start=${dateStartToString}&date_end=${dateEndToString}`;
+    now.setFullYear(now.getFullYear() - 1);
+    const dateStartToString = dateFormat(now, "yyyy-mm-dd");
 
-    expect(createPeriodQuery("Год", "yyyy-mm-dd")).toBe(query);
+    const query = { startDate: dateStartToString, endDate: dateEndToString };
+
+    expect(createPeriodQuery("Год", "yyyy-mm-dd")).toEqual(query);
   });
   test("Произвольные даты", () => {
     const period = {
       from: "01.01.24",
       to: "05.01.24",
     };
-    const query = "date_start=2024-01-01&date_end=2024-01-05";
+    const query = { startDate: "2024-01-01", endDate: "2024-01-05" };
 
-    expect(createPeriodQuery(period, "yyyy-mm-dd")).toBe(query);
+    expect(createPeriodQuery(period, "yyyy-mm-dd")).toEqual(query);
   });
 });
 
 describe("Utils createCallTypeQuery", () => {
   test("Все типы", () => {
-    expect(createCallTypeQuery("Все типы")).toBe("");
+    expect(createCallTypeQuery("Все типы")).toBeUndefined();
   });
   test("Входящие", () => {
-    expect(createCallTypeQuery("Входящие")).toBe("in_out=1");
+    expect(createCallTypeQuery("Входящие")).toBe("1");
   });
   test("Исходящие", () => {
-    expect(createCallTypeQuery("Исходящие")).toBe("in_out=0");
+    expect(createCallTypeQuery("Исходящие")).toBe("0");
   });
 });
 
 describe("Utils createSortByQuery", () => {
   test("Sort by date", () => {
-    expect(createSortByQuery("date")).toBe("sort_by=date");
+    expect(createSortByQuery("date")).toBe("date");
   });
   test("Sort by duration", () => {
-    expect(createSortByQuery("duration")).toBe("sort_by=duration");
+    expect(createSortByQuery("duration")).toBe("duration");
   });
 });
 
 describe("Utils createOrderQuery", () => {
   test("Order ASC", () => {
-    expect(createOrderQuery("ASC")).toBe("order=ASC");
+    expect(createOrderQuery("ASC")).toBe("ASC");
   });
   test("Order DESC", () => {
-    expect(createOrderQuery("DESC")).toBe("order=DESC");
+    expect(createOrderQuery("DESC")).toBe("DESC");
   });
 });
 
@@ -108,9 +108,15 @@ describe("Utils createSearchQuery", () => {
       limit: 10,
       offset: 5,
     };
-    expect(createSearchQuery(params)).toBe(
-      "date_start=2024-01-01&date_end=2024-01-10&in_out=1&sort_by=date&order=ASC&limit=10&offset=5"
-    );
+    expect(createSearchQuery(params)).toEqual({
+      date_start: "2024-01-01",
+      date_end: "2024-01-10",
+      in_out: "1",
+      sort_by: "date",
+      order: "ASC",
+      limit: "10",
+      offset: "5",
+    });
   });
   test("Only required params", () => {
     const params: QueryParams = {
@@ -122,9 +128,15 @@ describe("Utils createSearchQuery", () => {
       sortBy: "date",
       order: "ASC",
     };
-    expect(createSearchQuery(params)).toBe(
-      "date_start=2024-01-01&date_end=2024-01-10&in_out=1&sort_by=date&order=ASC"
-    );
+    expect(createSearchQuery(params)).toEqual({
+      date_start: "2024-01-01",
+      date_end: "2024-01-10",
+      in_out: "1",
+      sort_by: "date",
+      order: "ASC",
+      limit: undefined,
+      offset: undefined,
+    });
   });
   test("Only required params and all call types", () => {
     const params: QueryParams = {
@@ -136,8 +148,14 @@ describe("Utils createSearchQuery", () => {
       sortBy: "date",
       order: "ASC",
     };
-    expect(createSearchQuery(params)).toBe(
-      "date_start=2024-01-01&date_end=2024-01-10&sort_by=date&order=ASC"
-    );
+    expect(createSearchQuery(params)).toEqual({
+      date_start: "2024-01-01",
+      date_end: "2024-01-10",
+      in_out: undefined,
+      sort_by: "date",
+      order: "ASC",
+      limit: undefined,
+      offset: undefined,
+    });
   });
 });

@@ -26,6 +26,7 @@
     border: none;
     background-color: #fff;
     cursor: pointer;
+    padding: 0;
 }
 
 .play-button:disabled,
@@ -46,7 +47,7 @@
 
 .player-range::-webkit-slider-thumb {
     opacity: 0;
-} 
+}
 
 
 .player-range::-moz-range-thumb {
@@ -60,6 +61,27 @@
     cursor: pointer;
 }
 
-.download:hover path{
+.download:hover path {
     fill: var(--UI-blue)
 }
+
+
+.loader {
+    width: 15px;
+    height: 15px;
+    border: 2px solid var(--UI-blue);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 

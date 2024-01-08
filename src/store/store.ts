@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import dataReducer from "./slices/paramsSlice";
-import { dataListApi } from '../api/dataList';
+import { dataListApi } from '../services/dataList';
 
 export const store = configureStore({
   reducer: {

@@ -30,11 +30,10 @@ export type AudioControlsProps = {
   isPlaying: boolean;
   onPlay: () => void;
   onPause: () => void;
+  isLoading: boolean;
 };
 
-export interface AudioPlayerProps {
-  track: string;
-}
+export interface AudioPlayerProps extends GetAudioParams{}
 
 export interface ProgressBarProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -131,7 +130,6 @@ export interface PopupItemProps {
 export interface DropDownProps {
   dropDownItems: string[];
   additionalClassName?: string;
-  selected?: string;
   onSelect?: (value: string) => void;
   "date-testid"?: string;
 }
@@ -150,7 +148,7 @@ export interface ResetButtonProps {
 
 export interface SortingButtonProps {
   label?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  name: string;
   "data-testid"?: string;
 }
 
@@ -173,12 +171,52 @@ export interface ParamsStateType {
     order: "ASC" | "DESC";
 }
 
+
+
+//UTILS
+//CreateSearchQuery
+
+export interface QueryParams extends ParamsStateType {
+    limit?: number;
+    offset?: number;
+}
+
+export interface CreateSearchQueryT {
+  periodQuery: {
+    startDate: string;
+    endDate: string;
+};
+callTypeQuery: "0" | "1" | null;
+sortByQuery: "date" | "duration";
+orderQuery: "ASC" | "DESC";
+limitQuery: string | undefined;
+offsetQuery: string | undefined;
+}
+
+//table
+
+export interface TableRowProps {
+  id: string | number,
+  type: CallIconType;
+  time: string;
+  avatar?: string;
+  phone: string;
+  source?: string;
+  badgeStatus?: StatusType;
+  duration?: string;
+  audio?: string;
+  record?: string;
+  partnership_id: string;
+}
+
+//SERVICES
+
 export interface queryDataT {
   date_start: string; //YYYY-MM-DD
   date_end: string; //YYYY-MM-DD
-  in_out: "0" | "1";
-  limit?: number;
-  offset?: number;
+  in_out?: "0" | "1";
+  limit?: string;
+  offset?: string;
   sort_by?: "date" | "duration";
   order?: "ASC" | "DESC";
   status?: "success" | "fail";
@@ -186,8 +224,8 @@ export interface queryDataT {
   from_persons?: string[];
   sources?: Array<"from_site" | "yandex" | "google" | "empty" | number>;
   duration?: {
-    gte: number; //sec
-    lte: number; //sec
+    gte: boolean; //sec
+    lte: boolean; //sec
   };
   errors?: Array<
     | "noerrors"
@@ -197,7 +235,7 @@ export interface queryDataT {
     | "noanswer"
     | "subscribercompleted"
   >;
-  results: Array<
+  results?: Array<
     "order" | "message" | "preorder" | "candidate" | "candidateMessage"
   >;
   search?: string;
@@ -205,10 +243,7 @@ export interface queryDataT {
   xls? : 1;
 }
 
-//UTILS
-//CreateSearchQuery
-
-export interface QueryParams extends ParamsStateType {
-    limit?: number;
-    offset?: number;
+export interface GetAudioParams {
+  record?: string;
+  partnership_id: string;
 }

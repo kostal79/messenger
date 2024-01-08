@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { QueryParams } from "../types/types";
+import { GetAudioParams, queryDataT } from "../types/types";
 
-const url = "https://api.skilla.ru/mango/getList";
+const url = "https://api.skilla.ru/mango";
 const token = "testtoken";
 
 export const dataListApi = createApi({
@@ -14,12 +14,14 @@ export const dataListApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getDataList: builder.query({
-      query: (params: QueryParams) => ({
-        url: `?${params}`,
+    getDataList: builder.query<any, queryDataT>({
+      query: (params) => ({
+        url: `/getList`,
         method: "POST",
+        params: params,
       }),
     }),
+    
   }),
 });
 

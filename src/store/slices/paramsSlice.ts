@@ -30,10 +30,19 @@ export const paramsSlice = createSlice({
     setOrder: (state, action: PayloadAction<ParamsStateType["order"]>) => {
       state.order = action.payload;
     },
+    toggleOrder: (state) => {
+      state.order = state.order === "ASC" ? "DESC" : "ASC";
+    },
   },
 });
 
-export const { setPeriod, setCallType, setSortBy, setOrder, resetCallType } =
-  paramsSlice.actions;
+export const {
+  setPeriod,
+  setCallType,
+  setSortBy,
+  toggleOrder,
+  resetCallType,
+  setOrder,
+} = paramsSlice.actions;
 
 export default paramsSlice.reducer;

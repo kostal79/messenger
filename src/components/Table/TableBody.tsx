@@ -1,37 +1,28 @@
 import React from "react";
-import TableRow, { TableRowProps } from "./TableRow";
+import TableRow from "./TableRow";
 import styles from "./Table.module.css";
+import UseFecthData from "./UseFecthData";
+import { TableRowProps } from "../../types/types";
 
-type TableForDayProps = {
-  label?: string;
-  rows?: number;
-  content?: TableRowProps[];
-};
 
-const TableForDay: React.FC<TableForDayProps> = ({
-  label,
-  rows,
-  content,
-}: TableForDayProps) => {
+const TableForDay: React.FC = () => {
+  const data = UseFecthData();
   let trs;
-  if (content) {
-    trs = content.map((tr) => {
+  if (data) {
+    trs = data.map((tr: any, index:number, arr:TableRowProps[]) => {
       return <TableRow {...tr} key={tr.id} />;
     });
   }
   return (
     <>
-      {label && (
-        <thead>
+        {/* <thead>
           <tr className={styles["table__label"]}>
             <td className={styles["table__data"]}>
               {label}
               <sup>{rows ? rows : 0}</sup>
             </td>
           </tr>
-        </thead>
-      )}
-
+        </thead> */}
       <tbody className={styles["table-for-day"]}>{trs && trs}</tbody>
     </>
   );
