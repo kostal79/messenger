@@ -33,7 +33,9 @@ export type AudioControlsProps = {
   isLoading: boolean;
 };
 
-export interface AudioPlayerProps extends GetAudioParams{}
+export interface AudioPlayerProps extends GetAudioParams{
+  id: TableRowProps["id"]
+}
 
 export interface ProgressBarProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -171,6 +173,12 @@ export interface ParamsStateType {
     order: "ASC" | "DESC";
 }
 
+//audioSlice
+
+export interface AudioSliceType {
+  canPlay: AudioPlayerProps["id"] | null;
+}
+
 
 
 //UTILS
@@ -207,7 +215,11 @@ export interface TableRowProps {
   audio?: string;
   record?: string;
   partnership_id: string;
+  date: string;
 }
+
+export type ReadableCallProps = TableRowProps[]
+
 
 //SERVICES
 

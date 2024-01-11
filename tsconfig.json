@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /*additional */
-    "esModuleInterop": true
+    "esModuleInterop": true,
   },
   "include": ["src"],
   "exclude": [

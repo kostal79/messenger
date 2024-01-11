@@ -7,7 +7,7 @@ import {
   createSearchQuery,
 } from "./createSearchQuery";
 import dateFormat from "dateformat";
-import { QueryParams } from "../types/types";
+import { QueryParams } from "../../types/types";
 
 describe("Utils createPeriodQuery", () => {
   test("3 дня", () => {

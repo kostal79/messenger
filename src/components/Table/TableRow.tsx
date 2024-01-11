@@ -16,7 +16,8 @@ const TableRow: React.FC<TableRowProps> = ({
   badgeStatus,
   duration,
   record,
-  partnership_id
+  partnership_id,
+  id
 }: TableRowProps) => {
 
   return (
@@ -43,7 +44,7 @@ const TableRow: React.FC<TableRowProps> = ({
         {duration ? (
           <>
             <span className={styles["table__duration"]}>{duration}</span>
-            {record && <span className={styles["table__player"]}><AudioPlayer record={record} partnership_id={partnership_id}/></span>}
+            {record && <span className={styles["table__player"]}><AudioPlayer id={id} record={record} partnership_id={partnership_id}/></span>}
           </>
         ) : (
           ""

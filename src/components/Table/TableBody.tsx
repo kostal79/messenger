@@ -1,31 +1,26 @@
 import React from "react";
-import TableRow from "./TableRow";
 import styles from "./Table.module.css";
 import UseFecthData from "./UseFecthData";
-import { TableRowProps } from "../../types/types";
-
+import { makeRedableCalls } from "./helpers/makeRedableCalls";
 
 const TableForDay: React.FC = () => {
-  const data = UseFecthData();
-  let trs;
-  if (data) {
-    trs = data.map((tr: any, index:number, arr:TableRowProps[]) => {
-      return <TableRow {...tr} key={tr.id} />;
-    });
+  const { calls, isLoading, error, isSuccess } = UseFecthData();
+  if (calls.length === 0 && isSuccess) {
+    return <div>Звонков не обнаружено</div>;
   }
-  return (
-    <>
-        {/* <thead>
-          <tr className={styles["table__label"]}>
-            <td className={styles["table__data"]}>
-              {label}
-              <sup>{rows ? rows : 0}</sup>
-            </td>
-          </tr>
-        </thead> */}
-      <tbody className={styles["table-for-day"]}>{trs && trs}</tbody>
-    </>
-  );
+  else if (calls.length > 0) {
+    return (
+      <>
+        <tbody className={styles["table-for-day"]}>
+          {makeRedableCalls(calls)}
+        </tbody>
+      </>
+    );
+  } else if (error) {
+    return <div>Load Error</div>
+  }
+
+  else if (isLoading) return <div>...Loading</div>
 };
 
 export default TableForDay;

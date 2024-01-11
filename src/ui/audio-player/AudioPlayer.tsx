@@ -6,8 +6,12 @@ import AudioControls from "./AudioControls";
 import ProgressBar from "./ProgressBar";
 import { AudioPlayerProps, GetAudioParams } from "../../types/types";
 import { getAudio } from "../../services/audio";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setCanPlay } from "../../store/slices/audioSlice";
 
-const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({record, partnership_id, id}: AudioPlayerProps) => {
+  const canPlay = useAppSelector((state) => state.audio.canPlay);
+  const dispatch = useAppDispatch();
   const [audioData, setAudioData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>();
@@ -57,7 +61,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
     clearInterval(intervalRef.current);
 
     intervalRef.current = setInterval(() => {
-      const currentTime =  Math.floor(audioRef.current!.currentTime);
+      const currentTime = Math.floor(audioRef.current!.currentTime);
       const lastedTime = Math.floor(durationRef.current - currentTime);
 
       setTrackProgress(currentTime);
@@ -83,8 +87,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
   };
 
   const onPlay = useCallback(() => {
+    dispatch(setCanPlay(id))
     if (!audioData) {
-      fetchTrack(props).then(() => setIsPlaying(true));
+      fetchTrack({record, partnership_id}).then(() => setIsPlaying(true));
     } else {
       setIsPlaying(true);
     }
@@ -93,6 +98,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
   const onPause = useCallback(() => {
     setIsPlaying(false);
   }, []);
+
+  useEffect(() => {
+    if (canPlay !== id) {
+      onPause();
+    }
+  }, [canPlay])
 
   const onDownload = () => {
     const link = document.createElement("a");
@@ -108,6 +119,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
       <div className={styles.player}>
         {audioData && (
           <audio
+          id={`player-${id}`}
             ref={audioRef}
             onDurationChange={(event) =>
               durationHandler(event.currentTarget.duration)
@@ -143,33 +155,4 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props: AudioPlayerProps) => {
   );
 };
 
-//   const [audioData, setAudioData] = useState<any>(null);
-//   const [error, setError] = useState<any>(null);
-//   const audioRef = useRef<HTMLAudioElement | null>(null);
-//   const playRef = useRef<HTMLButtonElement | null>(null);
-
-//   const handleFetchAudio = async (params: GetAudioParams) => {
-//     try {
-//       const audioContent = await getAudio(params);
-//       setAudioData(audioContent);
-//     } catch (error) {
-//       setError(error);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <button onClick={() => handleFetchAudio({ record, partnership_id })}>
-//         Load
-//       </button>
-//       {error && <div>Ошибка при загрузке</div>}
-//       {audioData && (
-//         <audio controls ref={audioRef}>
-//           <source type="audio/mpeg" src={URL.createObjectURL(audioData)} />
-//           Ваш браузер не поддерживает аудио-элемент.
-//         </audio>
-//       )}
-//     </div>
-//   );
-// };
 export default AudioPlayer;

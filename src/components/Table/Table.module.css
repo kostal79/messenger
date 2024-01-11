@@ -24,7 +24,7 @@
 
 thead tr th{
    text-align: left;
-   padding-bottom: 20px;
+   padding: 5px 5px 20px 5px;
    border-bottom: 1px solid #EAF0FA;
 }
 
@@ -44,12 +44,13 @@ thead tr th{
     color: var(--text-secondary)
 }
 
+
 .table-for-day .table__row, .table__label {
-   border-bottom: 1px solid #EAF0FA;
+    border-top: 1px solid #EAF0FA;
 }
 
-.table__label sup {
-    color: var(--text-secondary)
+.table-for-day .table__row:first-child{
+    border-top: none
 }
 
 .table__row .table__data {
@@ -82,4 +83,14 @@ tbody tr:hover {
 
 .table__row:hover .table__player {
     display: block;
+}
+
+.table__sublabel .table__data{
+    padding-top: 40px;
+    padding-bottom: 16px;
+    font-size: 15px;
+}
+
+.table__sublabel sup {
+    color: var(--text-secondary)
 }

@@ -1,15 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetAudioParams, queryDataT } from "../types/types";
-
-const url = "https://api.skilla.ru/mango";
-const token = "testtoken";
+import { queryDataT } from "../types/types";
 
 export const dataListApi = createApi({
   reducerPath: "dataListApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: url,
+    baseUrl: import.meta.env.VITE_FETCH_URL,
     prepareHeaders: (headers) => {
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("Authorization", `Bearer ${import.meta.env.VITE_TEST_TOKEN}`);
       return headers;
     },
   }),

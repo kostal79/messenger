@@ -1,4 +1,4 @@
-import { ParamsStateType, QueryParams, queryDataT } from "../types/types";
+import { ParamsStateType, QueryParams, queryDataT } from "../../types/types";
 import dateFormat from "dateformat";
 
 export function createPeriodQuery(
