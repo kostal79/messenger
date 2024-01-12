@@ -1,4 +1,4 @@
-import { ParamsStateType, QueryParams, queryDataT } from "../../types/types";
+import { ParamsStateType,  queryDataT } from "../../types/types";
 import dateFormat from "dateformat";
 
 export function createPeriodQuery(
@@ -88,27 +88,27 @@ export function createOrderQuery(order: ParamsStateType["order"]) {
   return searchParams;
 }
 
-export function createLimitQuery(limit: QueryParams["limit"]) {
+export function createLimitQuery(limit: ParamsStateType["limit"]) {
   let searchParams: queryDataT["limit"];
-  if (limit) searchParams=limit.toString();
+  searchParams=limit.toString();
   return searchParams;
 }
 
-export function createOffsetQuery(offset: QueryParams["offset"]) {
+export function createOffsetQuery(page: ParamsStateType["page"], limit: ParamsStateType["limit"]) {
   let searchParams : queryDataT["offset"];
-  if (offset) searchParams = offset.toString();
+  searchParams = (page * limit).toString();
   return searchParams;
 }
 
-export function createSearchQuery(params: QueryParams) {
+export function createSearchQuery(params: ParamsStateType) {
   const periodQuery = createPeriodQuery(params.period, "yyyy-mm-dd");
   const callTypeQuery = createCallTypeQuery(params.callType);
   const sortByQuery = createSortByQuery(params.sortBy);
   const orderQuery = createOrderQuery(params.order);
   const limitQuery = createLimitQuery(params.limit);
-  const offsetQuery = createOffsetQuery(params.offset);
+  const offsetQuery = createOffsetQuery(params.page, params.limit);
 
-  const query = {
+  const query: queryDataT = {
     date_start: periodQuery.startDate,
     date_end: periodQuery.endDate,
     in_out: callTypeQuery,

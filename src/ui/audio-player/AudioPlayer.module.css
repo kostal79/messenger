@@ -77,6 +77,25 @@
     animation: rotation 1s linear infinite;
 }
 
+.reset{
+    margin-left: 17px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    place-content: center;
+    display: grid;
+}
+
+.reset div{
+    width: 16px;
+    height: 16px;
+}
+
+.reset svg{
+    width: 16px;
+    height: 16px;
+}
+
 @keyframes rotation {
     0% {
         transform: rotate(0deg);

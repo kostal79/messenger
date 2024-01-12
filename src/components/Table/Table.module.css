@@ -10,7 +10,8 @@
     width: 100%;
 }
 
-.table__body td, .table__label td {
+.table__body td,
+.table__label td {
     font-size: 15px;
     line-height: 140%;
 }
@@ -22,10 +23,10 @@
     color: var(--text-secondary);
 }
 
-thead tr th{
-   text-align: left;
-   padding: 5px 5px 20px 5px;
-   border-bottom: 1px solid #EAF0FA;
+thead tr th {
+    text-align: left;
+    padding: 5px 5px 20px 5px;
+    border-bottom: 1px solid #EAF0FA;
 }
 
 .table__data {
@@ -39,17 +40,18 @@ thead tr th{
     padding-right: 18px;
 }
 
-.table-for-day .table__row td:nth-child(5){
+.table-for-day .table__row td:nth-child(5) {
     max-width: 150px;
     color: var(--text-secondary)
 }
 
 
-.table-for-day .table__row, .table__label {
+.table-for-day .table__row,
+.table__label {
     border-top: 1px solid #EAF0FA;
 }
 
-.table-for-day .table__row:first-child{
+.table-for-day .table__row:first-child {
     border-top: none
 }
 
@@ -85,7 +87,7 @@ tbody tr:hover {
     display: block;
 }
 
-.table__sublabel .table__data{
+.table__sublabel .table__data {
     padding-top: 40px;
     padding-bottom: 16px;
     font-size: 15px;
@@ -94,3 +96,34 @@ tbody tr:hover {
 .table__sublabel sup {
     color: var(--text-secondary)
 }
+
+.paginate {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding-top: 40px;
+    justify-content: center;
+    gap: 10px;
+    list-style: none;
+    font-size: 15px;
+    color: var(--text-secondary)
+}
+
+.paginate__page,
+.paginate__next,
+.paginate__prev {
+    cursor: pointer;
+}
+
+.paginate__page:hover,
+.paginate__next:hover,
+.paginate__prev:hover {
+    color: var(--UI-blue);
+
+}
+
+.paginate__page--active {
+    color: var(--UI-blue);
+    border-bottom: 1px solid var(--UI-blue);
+}
+

@@ -7,9 +7,10 @@ import { toReadableTime } from "../../ui/audio-player/helpers";
 
 const UseFecthData = () => {
   const queryParams = useAppSelector((state) => state.data);
-  const { data, isLoading, error, isSuccess } = useGetDataListQuery(
-    createSearchQuery(queryParams)
-  );
+  const fetchParams = createSearchQuery(queryParams);
+  console.log(fetchParams);
+  const { data, isLoading, error, isSuccess, isFetching } =
+    useGetDataListQuery(fetchParams);
 
   function getCallType(result: any): CallIconType {
     const succsess = result.status === "Дозвонился";
@@ -45,13 +46,14 @@ const UseFecthData = () => {
   }
 
   function getOnlyDate(date: string) {
-    return date.split(" ")[0]
+    return date.split(" ")[0];
   }
 
   let calls: TableRowProps[] = [];
-
+  let totalRows = 0;
   if (data && !isLoading) {
-    console.log(data);
+    console.log("data: ", data)
+    totalRows = data.total_rows;
     calls = data.results.map((result: any): TableRowProps => {
       return {
         id: result.id,
@@ -69,7 +71,16 @@ const UseFecthData = () => {
       };
     });
   }
-  return { calls, isLoading, error, isSuccess };
+  return {
+    totalRows,
+    calls,
+    isLoading,
+    error,
+    isSuccess,
+    isFetching,
+    page: queryParams.page,
+    limit: queryParams.limit,
+  };
 };
 
 export default UseFecthData;

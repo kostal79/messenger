@@ -18,7 +18,6 @@ export const dataListApi = createApi({
         params: params,
       }),
     }),
-    
   }),
 });
 

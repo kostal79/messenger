@@ -6,6 +6,8 @@ const initialState: ParamsStateType = {
   callType: "Все типы",
   sortBy: "date",
   order: "DESC",
+  page: 0,
+  limit: 50,
 };
 
 export const paramsSlice = createSlice({
@@ -33,6 +35,12 @@ export const paramsSlice = createSlice({
     toggleOrder: (state) => {
       state.order = state.order === "ASC" ? "DESC" : "ASC";
     },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
+    resetPage: (state) => {
+      state.page = 0;
+    }
   },
 });
 
@@ -43,6 +51,8 @@ export const {
   toggleOrder,
   resetCallType,
   setOrder,
+  setPage,
+  resetPage,
 } = paramsSlice.actions;
 
 export default paramsSlice.reducer;

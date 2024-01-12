@@ -1,6 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import CallIcon, { CallIconProps, defaultType, types } from "../CallIcon";
+import CallIcon from "../CallIcon";
+import { CallIconProps, defaultType, types } from "../../../types/types";
 
 const testId: string = "Call-icon";
 

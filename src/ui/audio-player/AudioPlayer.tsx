@@ -8,6 +8,7 @@ import { AudioPlayerProps, GetAudioParams } from "../../types/types";
 import { getAudio } from "../../services/audio";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCanPlay } from "../../store/slices/audioSlice";
+import { ResetButton } from "../resetButton";
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({record, partnership_id, id}: AudioPlayerProps) => {
   const canPlay = useAppSelector((state) => state.audio.canPlay);
@@ -99,6 +100,14 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({record, partnership_id, id}: A
     setIsPlaying(false);
   }, []);
 
+  const onStop = useCallback(() => {
+    setIsPlaying(false)
+    setTrackProgress(0)
+    audioRef.current!.currentTime = 0;
+    setDuration(toReadableTime(durationRef.current))
+
+  }, [])
+
   useEffect(() => {
     if (canPlay !== id) {
       onPause();
@@ -149,6 +158,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({record, partnership_id, id}: A
         <button className={styles.download} onClick={onDownload}>
           <DownloadIcon />
         </button>
+        {isPlaying && <ResetButton visible={true} additionalClassName={styles.reset} onClick={onStop}/>}
       </div>
       {error && <span>Loading error</span>}
     </>

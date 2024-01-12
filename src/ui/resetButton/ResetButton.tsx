@@ -2,17 +2,16 @@ import React, { memo } from "react";
 import styles from "./ResetButton.module.css";
 import clsx from "clsx";
 import { ResetButtonProps } from "../../types/types";
-import { useAppSelector } from "../../store/hooks";
 
 const ResetButton: React.FC<ResetButtonProps> = ({
   additionalClassName,
   onClick,
   label,
-  visible,
+  visible=true,
   "data-testid": testId,
 }: ResetButtonProps) => {
-  const reduxVisible = useAppSelector(state => state.data.callType)
-  if (!visible && reduxVisible === "Все типы" ) return;
+  
+  if (!visible ) return;
   const className = clsx(styles["reset__button"], additionalClassName);
   return (
     <button className={className} onClick={onClick} data-testid={testId}>

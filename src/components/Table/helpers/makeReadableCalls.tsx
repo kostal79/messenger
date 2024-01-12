@@ -4,9 +4,9 @@ import { isToday, isYesterday } from "../../../utils/date-utils/dateUtils";
 import styles from "../Table.module.css";
 import TableRow from "../TableRow";
 
-export const makeRedableCalls = (calls: ReadableCallProps) => {
+export const makeRedableCalls = ({calls, order}: ReadableCallProps) => {
   const makeRows = (callsMap: Map<TableRowProps["date"], TableRowProps[]>) => {
-    const readableCalls: Array<any> = [];
+    const readableCalls: Array<JSX.Element> = [];
     for (let [date, callsSet] of callsMap.entries()) {
       if (!isToday(date)) {
         readableCalls.push(
@@ -17,6 +17,17 @@ export const makeRedableCalls = (calls: ReadableCallProps) => {
             </td>
           </tr>
         );
+      } else {
+        if (order === "ASC") {
+          readableCalls.push(
+            <tr className={styles["table__sublabel"]} key={`head_${date}`}>
+            <td className={styles["table__data"]}>
+              "Сегодня"
+              <sup>{callsSet.length}</sup>
+            </td>
+          </tr>
+          )
+        }
       }
       callsSet.forEach((call) =>
         readableCalls.push(<TableRow {...call} key={`call_id_${call.id}`} />)

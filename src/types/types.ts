@@ -33,8 +33,13 @@ export type AudioControlsProps = {
   isLoading: boolean;
 };
 
-export interface AudioPlayerProps extends GetAudioParams{
-  id: TableRowProps["id"]
+export interface GetAudioParams {
+  record?: string;
+  partnership_id: string;
+}
+
+export interface AudioPlayerProps extends GetAudioParams {
+  id: TableRowProps["id"];
 }
 
 export interface ProgressBarProps {
@@ -162,15 +167,21 @@ export interface ComponentProps extends HTMLAttributes<HTMLOrSVGElement> {
 
 //paramSlice
 
-export const typesCallForDropdown = ["Все типы", "Входящие", "Исходящие"] as const;
-export type TypesCallForDropdownT = typeof typesCallForDropdown[number];
+export const typesCallForDropdown = [
+  "Все типы",
+  "Входящие",
+  "Исходящие",
+] as const;
+export type TypesCallForDropdownT = (typeof typesCallForDropdown)[number];
 export const defaultTypeCallForDropdown = typesCallForDropdown[0];
 
 export interface ParamsStateType {
-    period: ContentType;
-    callType: TypesCallForDropdownT;
-    sortBy: "date" | "duration";
-    order: "ASC" | "DESC";
+  period: ContentType;
+  callType: TypesCallForDropdownT;
+  sortBy: "date" | "duration";
+  order: "ASC" | "DESC";
+  page: number;
+  limit: number;
 }
 
 //audioSlice
@@ -179,32 +190,26 @@ export interface AudioSliceType {
   canPlay: AudioPlayerProps["id"] | null;
 }
 
-
-
-//UTILS
 //CreateSearchQuery
 
-export interface QueryParams extends ParamsStateType {
-    limit?: number;
-    offset?: number;
-}
+export interface QueryParams extends ParamsStateType {}
 
 export interface CreateSearchQueryT {
   periodQuery: {
     startDate: string;
     endDate: string;
-};
-callTypeQuery: "0" | "1" | null;
-sortByQuery: "date" | "duration";
-orderQuery: "ASC" | "DESC";
-limitQuery: string | undefined;
-offsetQuery: string | undefined;
+  };
+  callTypeQuery: "0" | "1" | null;
+  sortByQuery: "date" | "duration";
+  orderQuery: "ASC" | "DESC";
+  limitQuery: string | undefined;
+  offsetQuery: string | undefined;
 }
 
 //table
 
 export interface TableRowProps {
-  id: string | number,
+  id: string | number;
   type: CallIconType;
   time: string;
   avatar?: string;
@@ -218,8 +223,16 @@ export interface TableRowProps {
   date: string;
 }
 
-export type ReadableCallProps = TableRowProps[]
+export type ReadableCallProps = {
+  calls: TableRowProps[],
+  order: ParamsStateType["order"]
+};
 
+export type MakePureCallsProps = Omit<ReadableCallProps, "order">
+
+export interface TableBodyPorps {
+  calls: TableRowProps[];
+}
 
 //SERVICES
 
@@ -227,8 +240,8 @@ export interface queryDataT {
   date_start: string; //YYYY-MM-DD
   date_end: string; //YYYY-MM-DD
   in_out?: "0" | "1";
-  limit?: string;
-  offset?: string;
+  limit?: string | number;
+  offset?: string | number;
   sort_by?: "date" | "duration";
   order?: "ASC" | "DESC";
   status?: "success" | "fail";
@@ -252,10 +265,5 @@ export interface queryDataT {
   >;
   search?: string;
   ids?: string[];
-  xls? : 1;
-}
-
-export interface GetAudioParams {
-  record?: string;
-  partnership_id: string;
+  xls?: 1;
 }

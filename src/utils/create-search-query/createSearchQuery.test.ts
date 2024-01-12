@@ -106,7 +106,7 @@ describe("Utils createSearchQuery", () => {
       sortBy: "date",
       order: "ASC",
       limit: 10,
-      offset: 5,
+      page: 5,
     };
     expect(createSearchQuery(params)).toEqual({
       date_start: "2024-01-01",
@@ -115,47 +115,7 @@ describe("Utils createSearchQuery", () => {
       sort_by: "date",
       order: "ASC",
       limit: "10",
-      offset: "5",
-    });
-  });
-  test("Only required params", () => {
-    const params: QueryParams = {
-      period: {
-        from: "01.01.24",
-        to: "10.01.24",
-      },
-      callType: "Входящие",
-      sortBy: "date",
-      order: "ASC",
-    };
-    expect(createSearchQuery(params)).toEqual({
-      date_start: "2024-01-01",
-      date_end: "2024-01-10",
-      in_out: "1",
-      sort_by: "date",
-      order: "ASC",
-      limit: undefined,
-      offset: undefined,
-    });
-  });
-  test("Only required params and all call types", () => {
-    const params: QueryParams = {
-      period: {
-        from: "01.01.24",
-        to: "10.01.24",
-      },
-      callType: "Все типы",
-      sortBy: "date",
-      order: "ASC",
-    };
-    expect(createSearchQuery(params)).toEqual({
-      date_start: "2024-01-01",
-      date_end: "2024-01-10",
-      in_out: undefined,
-      sort_by: "date",
-      order: "ASC",
-      limit: undefined,
-      offset: undefined,
+      offset: "50",
     });
   });
 });

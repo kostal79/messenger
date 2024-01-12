@@ -1,26 +1,20 @@
 import React from "react";
 import styles from "./Table.module.css";
-import UseFecthData from "./UseFecthData";
-import { makeRedableCalls } from "./helpers/makeRedableCalls";
+import { makeRedableCalls } from "./helpers/makeReadableCalls";
+import { TableBodyPorps } from "../../types/types";
+import { useAppSelector } from "../../store/hooks";
+import { makePureCalls } from "./helpers/makePureCalls";
 
-const TableForDay: React.FC = () => {
-  const { calls, isLoading, error, isSuccess } = UseFecthData();
-  if (calls.length === 0 && isSuccess) {
-    return <div>Звонков не обнаружено</div>;
-  }
-  else if (calls.length > 0) {
-    return (
-      <>
-        <tbody className={styles["table-for-day"]}>
-          {makeRedableCalls(calls)}
-        </tbody>
-      </>
-    );
-  } else if (error) {
-    return <div>Load Error</div>
-  }
-
-  else if (isLoading) return <div>...Loading</div>
+const TableBody: React.FC<TableBodyPorps> = ({ calls }: TableBodyPorps) => {
+  const sortBy = useAppSelector((state) => state.data.sortBy);
+  const order = useAppSelector((state)=> state.data.order)
+  const tableContent =
+    sortBy === "date" ? makeRedableCalls({calls, order}) : makePureCalls({calls});
+  return (
+    <>
+      <tbody className={styles["table-for-day"]}>{tableContent}</tbody>
+    </>
+  );
 };
 
-export default TableForDay;
+export default TableBody;

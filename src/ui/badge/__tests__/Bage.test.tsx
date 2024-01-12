@@ -1,6 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import Badge, { BadgeProps, StatusType, defaultStatus, statuses } from "../Badge";
+import Badge from "../Badge";
+import { BadgeProps, StatusType, defaultStatus, statuses } from "../../../types/types";
 
 const testId: string = "Badge";
 
