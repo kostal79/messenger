@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React from "react";
 import styles from "./AudioPlayer.module.css";
 import DownloadIcon from "../../ui/icons/DownloadIcon";
-import { toReadableTime } from "./helpers";
 import AudioControls from "./AudioControls";
 import ProgressBar from "./ProgressBar";
 import { AudioPlayerProps } from "../../types/types";
