@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./Table.module.css";
-import { SortingButton } from "../../ui/sortingButton";
 import TableBody from "./TableBody";
 import ReactPaginate from "react-paginate";
 import UseFecthData from "./UseFecthData";
 import { useAppDispatch } from "../../store/hooks";
 import { setPage } from "../../store/slices/paramsSlice";
+import TableHead from "./TableHead";
 
 const Table: React.FC = () => {
   const { totalRows, calls, isLoading, error, isSuccess, limit } =
@@ -22,21 +22,7 @@ const Table: React.FC = () => {
   return (
     <div className={styles["table__container"]}>
       <table className={styles["table__body"]}>
-        <thead>
-          <tr className={styles["table__row"]}>
-            <th className={styles["table__head"]}>Тип</th>
-            <th className={styles["table__head"]}>
-              <SortingButton label="Время" name="date" />
-            </th>
-            <th className={styles["table__head"]}>Сотрудник</th>
-            <th className={styles["table__head"]}>Звонок</th>
-            <th className={styles["table__head"]}>Источник</th>
-            <th className={styles["table__head"]}>Оценка</th>
-            <th className={styles["table__head"]}>
-              <SortingButton label="Длительность" name="duration" />
-            </th>
-          </tr>
-        </thead>
+        <TableHead />
         {calls.length > 0 && <TableBody calls={calls} />}
       </table>
       {calls.length > 0 && (
